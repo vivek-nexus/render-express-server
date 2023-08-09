@@ -1,0 +1,14 @@
+{
+  "name": "render-express-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/yakshaG/render-express-server.git",
+  "author": "Vivek G <audit536@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0"
+  }
+}
