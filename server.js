@@ -9,6 +9,11 @@ app.use(cors({
     origin: ['https://yakshag.github.io', 'http://localhost:3275']
 }));
 
+app.get('/health', async (req, res) => {
+    res.status(200).send("Server is running")
+});
+
+
 app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
 
