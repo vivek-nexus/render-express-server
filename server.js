@@ -10,9 +10,26 @@ app.use(cors({
     origin: ['https://yakshag.github.io', 'http://localhost:3275']
 }));
 
+
+
+
 app.get('/health', async (req, res) => {
     res.status(200).send("Server is running")
 });
+
+
+
+setInterval(() => {
+    axios.get('https://render-express-server-q222.onrender.com/health') // Replace with your Render app's URL
+        .then(response => {
+            console.log('Server pinged:', response.data);
+        })
+        .catch(error => {
+            console.error('Error pinging server:', error.message);
+        });
+}, 600000);
+
+
 
 app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
@@ -28,6 +45,8 @@ app.get('/fetch-html', async (req, res) => {
         res.status(500).json({ error: 'Error fetching HTML' });
     }
 });
+
+
 
 app.get("/slack-on-keys/:code", async (req, res) => {
     const tempCode = req.params.code;
@@ -63,6 +82,9 @@ app.get("/slack-on-keys/:code", async (req, res) => {
         console.error('Error sending analytics:', error);
     }
 });
+
+
+
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
