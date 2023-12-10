@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: ['https://yakshag.github.io', 'http://localhost:3275']
+    origin: ['https://yakshag.github.io', 'http://localhost:3275', 'https://vivek.nexus']
 }));
 
 
@@ -35,7 +35,7 @@ app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
 
     if (!url) {
-        return res.status(400).json({ error: 'URL is missing in query parameters' });
+        return res.status(400).json({ error: 'URL is missing query parameters' });
     }
 
     try {
@@ -51,7 +51,6 @@ app.get('/fetch-html', async (req, res) => {
 app.get("/slack-on-keys/:code", async (req, res) => {
     const tempCode = req.params.code;
     const oauthUrl = "https://slack.com/api/oauth.v2.access";
-    const analyticsUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=425970658&text=slack-on-keys,%20new-slack-token-generated&parse_mode=Markdown`;
 
     const oauthData = new URLSearchParams();
     oauthData.append('client_id', process.env.SLACK_CLIENT_ID);
@@ -73,13 +72,6 @@ app.get("/slack-on-keys/:code", async (req, res) => {
         }
     } catch (error) {
         res.status(500).send('Error during OAuth request');
-    }
-
-    try {
-        await axios.post(analyticsUrl);
-        console.log('Anonymous analytics');
-    } catch (error) {
-        console.error('Error sending analytics:', error);
     }
 });
 
