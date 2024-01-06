@@ -20,7 +20,7 @@ app.get('/health', async (req, res) => {
 
 
 setInterval(() => {
-    axios.get('https://render-express-server-q222.onrender.com/health') // Replace with your Render app's URL
+    axios.get('https://render-express-server-q222.onrender.com/health')
         .then(response => {
             console.log('Server pinged:', response.data);
         })
@@ -53,8 +53,35 @@ app.get("/slack-on-keys/:code", async (req, res) => {
     const oauthUrl = "https://slack.com/api/oauth.v2.access";
 
     const oauthData = new URLSearchParams();
-    oauthData.append('client_id', process.env.SLACK_CLIENT_ID);
-    oauthData.append('client_secret', process.env.SLACK_CLIENT_SECRET);
+    oauthData.append('client_id', process.env.SLACK_CLIENT_ID_SLACK_ON_KEYS);
+    oauthData.append('client_secret', process.env.SLACK_CLIENT_SECRET_SLACK_ON_KEYS);
+    oauthData.append('code', tempCode);
+
+    try {
+        const oauthResponse = await axios.post(oauthUrl, oauthData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+
+        if (oauthResponse.data.ok === true) {
+            const token = oauthResponse.data.authed_user.access_token;
+            res.status(200).send(token);
+        } else {
+            res.status(400).send(oauthResponse.data.error);
+        }
+    } catch (error) {
+        res.status(500).send('Error during OAuth request');
+    }
+});
+
+app.get("/google-meet-slack-integration/:code", async (req, res) => {
+    const tempCode = req.params.code;
+    const oauthUrl = "https://slack.com/api/oauth.v2.access";
+
+    const oauthData = new URLSearchParams();
+    oauthData.append('client_id', process.env.SLACK_CLIENT_ID_GOOGLE_MEET_SLACK_INTEGRATION);
+    oauthData.append('client_secret', process.env.SLACK_CLIENT_SECRET_GOOGLE_MEET_SLACK_INTEGRATION);
     oauthData.append('code', tempCode);
 
     try {
