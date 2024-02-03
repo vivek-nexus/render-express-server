@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const { blockList } = require('./blockList');
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
@@ -34,9 +35,9 @@ setInterval(() => {
 app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
 
-    // if (String(url).includes("corrieredellacalabria.it")) {
-    //     return res.status(401).json({ error: 'Error. Pass article text as URL param or copy paste article.' });
-    // }
+    if (IsPresentInBlockList(url)) {
+        return res.status(401).json({ error: 'Error. Pass article text as URL param or copy paste article.' });
+    }
 
     if (!url) {
         return res.status(400).json({ error: 'URL is missing query parameters' });
@@ -105,6 +106,14 @@ app.get("/google-meet-slack-integration/:code", async (req, res) => {
         res.status(500).send('Error during OAuth request');
     }
 });
+
+function IsPresentInBlockList(item) {
+    for (let i = 0; i < blockList.length; i++) {
+        if (item.includes(blockList[i]))
+            return true;
+    }
+    return false;
+}
 
 
 
