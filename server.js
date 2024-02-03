@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-const { blockList } = require('./blockList');
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const port = 3000;
+const blockList = []
 
 app.use(cors({
     origin: ['https://yakshag.github.io', 'https://vivek-nexus.github.io', 'http://localhost:3275', 'https://vivek.nexus', 'https://www.vivek.nexus']
