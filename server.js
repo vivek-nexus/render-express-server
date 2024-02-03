@@ -35,7 +35,7 @@ app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
 
     if (String(url).includes("corrieredellacalabria.it")) {
-        return res.status(400).json({ error: 'Error. Pass article text as URL param or copy paste article.' });
+        return res.status(401).json({ error: 'Error. Pass article text as URL param or copy paste article.' });
     }
 
     if (!url) {
