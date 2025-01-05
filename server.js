@@ -5,7 +5,6 @@ require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const port = 3000;
-const blockList = []
 
 app.use(cors({
     origin: ['https://yakshag.github.io', 'https://vivek-nexus.github.io', 'http://localhost:3275', 'https://vivek.nexus', 'https://www.vivek.nexus']
@@ -34,10 +33,6 @@ setInterval(() => {
 
 app.get('/fetch-html', async (req, res) => {
     const { url } = req.query;
-
-    if (IsPresentInBlockList(url)) {
-        return res.status(401).json({ error: 'Error. Pass article text as URL param or copy paste article.' });
-    }
 
     if (!url) {
         return res.status(400).json({ error: 'URL is missing query parameters' });
@@ -107,13 +102,14 @@ app.get("/google-meet-slack-integration/:code", async (req, res) => {
     }
 });
 
-function IsPresentInBlockList(item) {
-    for (let i = 0; i < blockList.length; i++) {
-        if (item.includes(blockList[i]))
-            return true;
+app.get("/ip", async (req, res) => {
+    try {
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        res.status(200).send(ip);
+    } catch (error) {
+        res.status(400).send("null IP address :(");
     }
-    return false;
-}
+})
 
 
 
