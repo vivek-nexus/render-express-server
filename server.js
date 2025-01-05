@@ -10,6 +10,8 @@ app.use(cors({
     origin: ['https://yakshag.github.io', 'https://vivek-nexus.github.io', 'http://localhost:3275', 'https://vivek.nexus', 'https://www.vivek.nexus']
 }));
 
+app.set('trust proxy', true)
+
 
 
 
@@ -104,8 +106,7 @@ app.get("/google-meet-slack-integration/:code", async (req, res) => {
 
 app.get("/ip", async (req, res) => {
     try {
-        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-        res.status(200).send(ip);
+        res.status(200).send(req.ip);
     } catch (error) {
         res.status(400).send("null IP address :(");
     }
