@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: ['https://yakshag.github.io', 'https://vivek-nexus.github.io', 'http://localhost:3275', 'https://vivek.nexus', 'https://www.vivek.nexus', "https://www.viveknexus.com", "https://viveknexus.com"]
+    origin: ['https://yakshag.github.io', 'https://vivek-nexus.github.io', 'http://localhost:3275', 'https://vivek.nexus', 'https://www.vivek.nexus', "https://viveknexus.com", "https://listen.viveknexus.com"]
 }));
 
 app.set('trust proxy', true)
